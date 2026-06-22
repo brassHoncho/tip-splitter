@@ -1,0 +1,9 @@
+{
+  "name": "tip-splitter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tiny tip-splitter web tool with a Neon-backed split history",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.0"
+  }
+}

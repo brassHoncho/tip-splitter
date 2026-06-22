@@ -15,7 +15,8 @@
       background: var(--card); padding: 2rem; border-radius: 16px;
       width: min(90vw, 360px); box-shadow: 0 10px 40px rgba(0,0,0,.4);
     }
-    h1 { margin: 0 0 1.5rem; font-size: 1.4rem; }
+    h1 { margin: 0 0 .25rem; font-size: 1.4rem; }
+    .tagline { margin: 0 0 1.5rem; font-size: .85rem; opacity: .6; }
     label { display: block; margin: 1rem 0 .3rem; font-size: .85rem; opacity: .8; }
     input {
       width: 100%; padding: .6rem; border-radius: 8px; border: 1px solid #334155;
@@ -31,6 +32,7 @@
 <body>
   <div class="card">
     <h1>💸 Tip Splitter</h1>
+    <p class="tagline">Split any bill fairly in seconds.</p>
     <label for="bill">Bill amount ($)</label>
     <input id="bill" type="number" value="50" min="0" />
     <label for="tip">Tip (%)</label>

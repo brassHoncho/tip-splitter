@@ -44,6 +44,7 @@
       <span id="output">$0.00</span>
     </div>
   </div>
+  <script src="calc.js"></script>
   <script>
     const inputs = ["bill", "tip", "people"].map((id) => document.getElementById(id));
     const output = document.getElementById("output");
@@ -51,7 +52,7 @@
       const bill = parseFloat(document.getElementById("bill").value) || 0;
       const tip = parseFloat(document.getElementById("tip").value) || 0;
       const people = parseInt(document.getElementById("people").value) || 1;
-      const perPerson = (bill * (1 + tip / 100)) / people;
+      const perPerson = tipPerPerson(bill, tip, people);
       output.textContent = "$" + perPerson.toFixed(2);
     }
     inputs.forEach((el) => el.addEventListener("input", calculate));

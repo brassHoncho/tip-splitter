@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tip Splitter</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #e2e8f0; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      font-family: system-ui, sans-serif; background: var(--bg); color: var(--text);
+    }
+    .card {
+      background: var(--card); padding: 2rem; border-radius: 16px;
+      width: min(90vw, 360px); box-shadow: 0 10px 40px rgba(0,0,0,.4);
+    }
+    h1 { margin: 0 0 1.5rem; font-size: 1.4rem; }
+    label { display: block; margin: 1rem 0 .3rem; font-size: .85rem; opacity: .8; }
+    input {
+      width: 100%; padding: .6rem; border-radius: 8px; border: 1px solid #334155;
+      background: #0f172a; color: var(--text); font-size: 1rem;
+    }
+    .result {
+      margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #334155;
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .result span:last-child { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>💸 Tip Splitter</h1>
+    <label for="bill">Bill amount ($)</label>
+    <input id="bill" type="number" value="50" min="0" />
+    <label for="tip">Tip (%)</label>
+    <input id="tip" type="number" value="18" min="0" />
+    <label for="people">Number of people</label>
+    <input id="people" type="number" value="2" min="1" />
+    <div class="result">
+      <span>Each person pays</span>
+      <span id="output">$0.00</span>
+    </div>
+  </div>
+  <script>
+    const inputs = ["bill", "tip", "people"].map((id) => document.getElementById(id));
+    const output = document.getElementById("output");
+    function calculate() {
+      const bill = parseFloat(document.getElementById("bill").value) || 0;
+      const tip = parseFloat(document.getElementById("tip").value) || 0;
+      const people = parseInt(document.getElementById("people").value) || 1;
+      const perPerson = (bill * (1 + tip / 100)) / people;
+      output.textContent = "$" + perPerson.toFixed(2);
+    }
+    inputs.forEach((el) => el.addEventListener("input", calculate));
+    calculate();
+  </script>
+</body>
+</html>

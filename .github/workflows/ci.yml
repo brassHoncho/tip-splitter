@@ -1,0 +1,24 @@
+name: CI
+
+# WHEN this workflow runs:
+on:
+  pull_request:            # on every pull request...
+  push:
+    branches: [main]       # ...and on every push to main (e.g. after a merge)
+
+jobs:
+  lint-html:
+    name: Lint HTML
+    runs-on: ubuntu-latest   # GitHub spins up a fresh Ubuntu virtual machine
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4      # copies your repo onto the runner
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Lint index.html with HTMLHint
+        run: npx --yes htmlhint index.html

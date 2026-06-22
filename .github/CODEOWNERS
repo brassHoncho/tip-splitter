@@ -1,0 +1,17 @@
+# CODEOWNERS — who is required to review changes to which paths.
+#
+# Syntax:  <path-pattern>   <owner> [<owner>...]
+#   - Patterns work like .gitignore globs.
+#   - The LAST matching pattern wins (so put general rules first,
+#     specific overrides later).
+#   - Owners are GitHub usernames (@name) or teams (@org/team).
+
+# Default owner for everything in the repo:
+*               @brassHoncho
+
+# Extra-sensitive: the CI/CD and automation config.
+# This directory defines how the project is tested and deployed —
+# i.e. the safety net itself. Changes here should never slip through
+# without an owner's eyes, since weakening these files weakens every
+# other protection in the repo.
+/.github/       @brassHoncho

@@ -19,3 +19,8 @@ test("one person pays the whole tipped bill", () => {
   // $80 + 25% tip = $100, split 1 way = $100
   assert.strictEqual(tipPerPerson(80, 25, 1), 100);
 });
+
+test("guards against zero people (no divide-by-zero)", () => {
+  // 0 people is treated as 1, so the whole tipped bill is owed — never Infinity.
+  assert.strictEqual(tipPerPerson(60, 0, 0), 60);
+});

@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "description": "Tiny tip-splitter web tool with a Neon-backed split history",
+  "scripts": {
+    "migrate": "node-pg-migrate"
+  },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.0"
+  },
+  "devDependencies": {
+    "node-pg-migrate": "^7.0.0",
+    "pg": "^8.11.0"
   }
 }

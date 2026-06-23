@@ -2,7 +2,8 @@
 // Input: bill amount, tip percentage, number of people.
 // Output: how much each person pays (a plain number).
 function tipPerPerson(bill, tipPercent, people) {
-  return (bill * (1 + tipPercent / 100)) / people;
+  const total = bill * (1 + tipPercent / 100);
+  return total / people;
 }
 
 // Make it available to Node's test runner (CommonJS) when running tests.

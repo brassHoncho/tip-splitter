@@ -27,6 +27,16 @@
       display: flex; justify-content: space-between; align-items: baseline;
     }
     .result span:last-child { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+    button {
+      width: 100%; margin-top: 1rem; padding: .7rem; border: none; border-radius: 8px;
+      background: var(--accent); color: #0f172a; font-size: 1rem; font-weight: 600; cursor: pointer;
+    }
+    button:disabled { opacity: .5; cursor: default; }
+    .history { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #334155; }
+    .history h2 { margin: 0 0 .5rem; font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; opacity: .6; }
+    .history ul { list-style: none; margin: 0; padding: 0; font-size: .85rem; }
+    .history li { display: flex; justify-content: space-between; padding: .3rem 0; opacity: .85; }
+    .history .muted { opacity: .5; font-style: italic; }
   </style>
 </head>
 <body>
@@ -43,6 +53,11 @@
       <span>Each person pays</span>
       <span id="output">$0.00</span>
     </div>
+    <button id="save">Save this split</button>
+    <div class="history">
+      <h2>Recent splits</h2>
+      <ul id="history"><li class="muted">Loading…</li></ul>
+    </div>
   </div>
   <script src="calc.js"></script>
   <script>
@@ -57,6 +72,56 @@
     }
     inputs.forEach((el) => el.addEventListener("input", calculate));
     calculate();
+
+    // --- Database-backed history (talks to /api/splits on Vercel) ---
+    const saveBtn = document.getElementById("save");
+    const historyEl = document.getElementById("history");
+
+    async function loadHistory() {
+      try {
+        const res = await fetch("/api/splits");
+        if (!res.ok) throw new Error("bad response");
+        const { splits } = await res.json();
+        if (!splits.length) {
+          historyEl.innerHTML = '<li class="muted">No saved splits yet.</li>';
+          return;
+        }
+        historyEl.innerHTML = splits
+          .map(
+            (s) =>
+              "<li><span>" + Number(s.people) + " people · " + Number(s.tip_percent) +
+              "% tip</span><span>$" + Number(s.per_person).toFixed(2) + " each</span></li>"
+          )
+          .join("");
+      } catch {
+        historyEl.innerHTML = '<li class="muted">History needs the Vercel API + database.</li>';
+      }
+    }
+
+    async function saveSplit() {
+      const bill = parseFloat(document.getElementById("bill").value) || 0;
+      const tip = parseFloat(document.getElementById("tip").value) || 0;
+      const people = parseInt(document.getElementById("people").value) || 1;
+      saveBtn.disabled = true;
+      try {
+        await fetch("/api/splits", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            bill: bill,
+            tipPercent: tip,
+            people: people,
+            perPerson: tipPerPerson(bill, tip, people),
+          }),
+        });
+        await loadHistory();
+      } finally {
+        saveBtn.disabled = false;
+      }
+    }
+
+    saveBtn.addEventListener("click", saveSplit);
+    loadHistory();
   </script>
 </body>
 </html>

@@ -1,0 +1,6 @@
+# Don't format generated, vendored, or non-code files.
+node_modules
+package-lock.json
+migrations
+.github
+*.md

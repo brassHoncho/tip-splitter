@@ -1,127 +1,208 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tip Splitter</title>
-  <style>
-    :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #e2e8f0; }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; min-height: 100vh; display: grid; place-items: center;
-      font-family: system-ui, sans-serif; background: var(--bg); color: var(--text);
-    }
-    .card {
-      background: var(--card); padding: 2rem; border-radius: 16px;
-      width: min(90vw, 360px); box-shadow: 0 10px 40px rgba(0,0,0,.4);
-    }
-    h1 { margin: 0 0 .25rem; font-size: 1.4rem; }
-    .tagline { margin: 0 0 1.5rem; font-size: .85rem; opacity: .6; }
-    label { display: block; margin: 1rem 0 .3rem; font-size: .85rem; opacity: .8; }
-    input {
-      width: 100%; padding: .6rem; border-radius: 8px; border: 1px solid #334155;
-      background: #0f172a; color: var(--text); font-size: 1rem;
-    }
-    .result {
-      margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #334155;
-      display: flex; justify-content: space-between; align-items: baseline;
-    }
-    .result span:last-child { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
-    button {
-      width: 100%; margin-top: 1rem; padding: .7rem; border: none; border-radius: 8px;
-      background: var(--accent); color: #0f172a; font-size: 1rem; font-weight: 600; cursor: pointer;
-    }
-    button:disabled { opacity: .5; cursor: default; }
-    .history { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #334155; }
-    .history h2 { margin: 0 0 .5rem; font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; opacity: .6; }
-    .history ul { list-style: none; margin: 0; padding: 0; font-size: .85rem; }
-    .history li { display: flex; justify-content: space-between; padding: .3rem 0; opacity: .85; }
-    .history .muted { opacity: .5; font-style: italic; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h1>💸 Tip Splitter</h1>
-    <p class="tagline">Split the bill, not the friendship — fair in one tap.</p>
-    <label for="bill">Bill amount ($)</label>
-    <input id="bill" type="number" value="50" min="0" />
-    <label for="tip">Tip (%)</label>
-    <input id="tip" type="number" value="18" min="0" />
-    <label for="people">Number of people</label>
-    <input id="people" type="number" value="2" min="1" />
-    <div class="result">
-      <span>Each person pays</span>
-      <span id="output">$0.00</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tip Splitter</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --accent: #38bdf8;
+        --text: #e2e8f0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .card {
+        background: var(--card);
+        padding: 2rem;
+        border-radius: 16px;
+        width: min(90vw, 360px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      }
+      h1 {
+        margin: 0 0 0.25rem;
+        font-size: 1.4rem;
+      }
+      .tagline {
+        margin: 0 0 1.5rem;
+        font-size: 0.85rem;
+        opacity: 0.6;
+      }
+      label {
+        display: block;
+        margin: 1rem 0 0.3rem;
+        font-size: 0.85rem;
+        opacity: 0.8;
+      }
+      input {
+        width: 100%;
+        padding: 0.6rem;
+        border-radius: 8px;
+        border: 1px solid #334155;
+        background: #0f172a;
+        color: var(--text);
+        font-size: 1rem;
+      }
+      .result {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #334155;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+      .result span:last-child {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      button {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 0.7rem;
+        border: none;
+        border-radius: 8px;
+        background: var(--accent);
+        color: #0f172a;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      .history {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #334155;
+      }
+      .history h2 {
+        margin: 0 0 0.5rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0.6;
+      }
+      .history ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-size: 0.85rem;
+      }
+      .history li {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.3rem 0;
+        opacity: 0.85;
+      }
+      .history .muted {
+        opacity: 0.5;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>💸 Tip Splitter</h1>
+      <p class="tagline">Split the bill, not the friendship — fair in one tap.</p>
+      <label for="bill">Bill amount ($)</label>
+      <input id="bill" type="number" value="50" min="0" />
+      <label for="tip">Tip (%)</label>
+      <input id="tip" type="number" value="18" min="0" />
+      <label for="people">Number of people</label>
+      <input id="people" type="number" value="2" min="1" />
+      <div class="result">
+        <span>Each person pays</span>
+        <span id="output">$0.00</span>
+      </div>
+      <button id="save">Save this split</button>
+      <div class="history">
+        <h2>Recent splits</h2>
+        <ul id="history">
+          <li class="muted">Loading…</li>
+        </ul>
+      </div>
     </div>
-    <button id="save">Save this split</button>
-    <div class="history">
-      <h2>Recent splits</h2>
-      <ul id="history"><li class="muted">Loading…</li></ul>
-    </div>
-  </div>
-  <script src="calc.js"></script>
-  <script>
-    const inputs = ["bill", "tip", "people"].map((id) => document.getElementById(id));
-    const output = document.getElementById("output");
-    function calculate() {
-      const bill = parseFloat(document.getElementById("bill").value) || 0;
-      const tip = parseFloat(document.getElementById("tip").value) || 0;
-      const people = parseInt(document.getElementById("people").value) || 1;
-      const perPerson = tipPerPerson(bill, tip, people);
-      output.textContent = "$" + perPerson.toFixed(2);
-    }
-    inputs.forEach((el) => el.addEventListener("input", calculate));
-    calculate();
+    <script src="calc.js"></script>
+    <script>
+      const inputs = ["bill", "tip", "people"].map((id) => document.getElementById(id));
+      const output = document.getElementById("output");
+      function calculate() {
+        const bill = parseFloat(document.getElementById("bill").value) || 0;
+        const tip = parseFloat(document.getElementById("tip").value) || 0;
+        const people = parseInt(document.getElementById("people").value) || 1;
+        const perPerson = tipPerPerson(bill, tip, people);
+        output.textContent = "$" + perPerson.toFixed(2);
+      }
+      inputs.forEach((el) => el.addEventListener("input", calculate));
+      calculate();
 
-    // --- Database-backed history (talks to /api/splits on Vercel) ---
-    const saveBtn = document.getElementById("save");
-    const historyEl = document.getElementById("history");
+      // --- Database-backed history (talks to /api/splits on Vercel) ---
+      const saveBtn = document.getElementById("save");
+      const historyEl = document.getElementById("history");
 
-    async function loadHistory() {
-      try {
-        const res = await fetch("/api/splits");
-        if (!res.ok) throw new Error("bad response");
-        const { splits } = await res.json();
-        if (!splits.length) {
-          historyEl.innerHTML = '<li class="muted">No saved splits yet.</li>';
-          return;
+      async function loadHistory() {
+        try {
+          const res = await fetch("/api/splits");
+          if (!res.ok) throw new Error("bad response");
+          const { splits } = await res.json();
+          if (!splits.length) {
+            historyEl.innerHTML = '<li class="muted">No saved splits yet.</li>';
+            return;
+          }
+          historyEl.innerHTML = splits
+            .map(
+              (s) =>
+                "<li><span>" +
+                Number(s.people) +
+                " people · " +
+                Number(s.tip_percent) +
+                "% tip</span><span>$" +
+                Number(s.per_person).toFixed(2) +
+                " each</span></li>",
+            )
+            .join("");
+        } catch {
+          historyEl.innerHTML = '<li class="muted">History needs the Vercel API + database.</li>';
         }
-        historyEl.innerHTML = splits
-          .map(
-            (s) =>
-              "<li><span>" + Number(s.people) + " people · " + Number(s.tip_percent) +
-              "% tip</span><span>$" + Number(s.per_person).toFixed(2) + " each</span></li>"
-          )
-          .join("");
-      } catch {
-        historyEl.innerHTML = '<li class="muted">History needs the Vercel API + database.</li>';
       }
-    }
 
-    async function saveSplit() {
-      const bill = parseFloat(document.getElementById("bill").value) || 0;
-      const tip = parseFloat(document.getElementById("tip").value) || 0;
-      const people = parseInt(document.getElementById("people").value) || 1;
-      saveBtn.disabled = true;
-      try {
-        await fetch("/api/splits", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            bill: bill,
-            tipPercent: tip,
-            people: people,
-            perPerson: tipPerPerson(bill, tip, people),
-          }),
-        });
-        await loadHistory();
-      } finally {
-        saveBtn.disabled = false;
+      async function saveSplit() {
+        const bill = parseFloat(document.getElementById("bill").value) || 0;
+        const tip = parseFloat(document.getElementById("tip").value) || 0;
+        const people = parseInt(document.getElementById("people").value) || 1;
+        saveBtn.disabled = true;
+        try {
+          await fetch("/api/splits", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              bill: bill,
+              tipPercent: tip,
+              people: people,
+              perPerson: tipPerPerson(bill, tip, people),
+            }),
+          });
+          await loadHistory();
+        } finally {
+          saveBtn.disabled = false;
+        }
       }
-    }
 
-    saveBtn.addEventListener("click", saveSplit);
-    loadHistory();
-  </script>
-</body>
+      saveBtn.addEventListener("click", saveSplit);
+      loadHistory();
+    </script>
+  </body>
 </html>

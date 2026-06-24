@@ -38,3 +38,19 @@ jobs:
 
       - name: Run the unit tests
         run: node --test
+
+  format:
+    name: Format check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check formatting with Prettier
+        run: npx --yes prettier@3.3.3 --check .

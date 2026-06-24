@@ -9,7 +9,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.10.0"
+    "@neondatabase/serverless": "^1.1.0"
   },
   "devDependencies": {
     "node-pg-migrate": "^7.0.0",

@@ -14,6 +14,6 @@
   "devDependencies": {
     "node-pg-migrate": "^7.0.0",
     "pg": "^8.11.0",
-    "prettier": "3.3.3"
+    "prettier": "3.9.4"
   }
 }

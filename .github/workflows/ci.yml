@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
 
       - name: Lint index.html with HTMLHint
         run: npx --yes htmlhint index.html
@@ -34,10 +34,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
 
-      - name: Run the unit tests
-        run: node --test
+      - name: Run the unit tests with a coverage gate
+        # Fails if coverage of the tested code drops below 80%.
+        run: >
+          node --test --experimental-test-coverage
+          --test-coverage-lines=80
+          --test-coverage-functions=80
+          --test-coverage-branches=80
 
   format:
     name: Format check
@@ -50,7 +55,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
 
       - name: Check formatting with Prettier
         run: npx --yes prettier@3.3.3 --check .
